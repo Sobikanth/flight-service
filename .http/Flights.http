@@ -1,0 +1,8 @@
+@Web_HostAddress = http://localhost:5157
+
+###
+
+# Get Flights
+GET {{Web_HostAddress}}/api/flights
+
+###

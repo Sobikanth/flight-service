@@ -1,7 +1,4 @@
-using Application;
-using FlightsHttpClient;
-using WebApi;
-using WebApi.Infrastructure;
+using Infrastructure.FlightsHttpClient;
 
 var builder = WebApplication.CreateBuilder(args);
 

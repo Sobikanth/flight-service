@@ -1,5 +1,6 @@
 using Application.Flights.Queries;
-using WebApi.Infrastructure;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Endpoints;
 
@@ -11,8 +12,19 @@ public class Flights : EndpointGroupBase
         .MapGet(GetFlights);
     }
 
-    public async Task<FlightsResponse> GetFlights(ISender sender, CancellationToken cancellationToken)
+    public async Task<FlightsResponse> GetFlights(ISender sender, [FromQuery] string? departureCity,
+            [FromQuery] string? destinationCity, CancellationToken cancellationToken)
     {
-        return await sender.Send(new GetFlightsQuery(), cancellationToken);
+        var query = new GetFlightsQuery
+        {
+            DepartureCity = departureCity,
+            DestinationCity = destinationCity
+        };
+        var response = await sender.Send(query, cancellationToken);
+        if (response.Flights == null)
+        {
+            return new FlightsResponse { Flights = [] };
+        }
+        return response;
     }
 }

@@ -1,7 +1,8 @@
-using Application.Common.Interface;
+using Application.Common.Interfaces;
+
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FlightsHttpClient;
+namespace Infrastructure.FlightsHttpClient;
 
 public static class DependencyInjection
 {

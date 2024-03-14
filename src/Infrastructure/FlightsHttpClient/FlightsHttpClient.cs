@@ -1,9 +1,9 @@
 using System.Xml.Linq;
 
-using Application.Common.Interface;
+using Application.Common.Interfaces;
 using Application.Flights.Queries;
 
-namespace FlightsHttpClient;
+namespace Infrastructure.FlightsHttpClient;
 
 public class FlightsHttpClient(HttpClient httpClient) : IFlightsHttpClient
 {
@@ -11,19 +11,26 @@ public class FlightsHttpClient(HttpClient httpClient) : IFlightsHttpClient
 
     public async Task<FlightsResponse> GetFlightsAsync()
     {
-        string xmlContent = await _httpClient.GetStringAsync("https://flighttestservice.azurewebsites.net/flights");
-        XDocument doc = XDocument.Parse(xmlContent);
-        List<Flight> flights = doc.Root
-            .Elements("Flight")
-            .Select(e => new Flight
-            {
-                FlightNumber = (string)e.Element("FlightNumber"),
-                DepartureCity = (string)e.Element("DepartureCity"),
-                DestinationCity = (string)e.Element("DestinationCity"),
-                DepartureTime = (DateTime)e.Element("DepartureTime"),
-                ArrivalTime = (DateTime)e.Element("ArrivalTime")
-            })
-            .ToList();
-        return new FlightsResponse { Flights = flights };
+        try
+        {
+            var xmlContent = await _httpClient.GetStringAsync("https://flighttestservice.azurewebsites.net/flights");
+            var doc = XDocument.Parse(xmlContent);
+            var flights = doc.Root
+                .Elements("Flight")
+                .Select(e => new Flight
+                {
+                    FlightNumber = (string?)e.Element("FlightNumber") ?? string.Empty,
+                    DepartureCity = (string?)e.Element("DepartureCity") ?? string.Empty,
+                    DestinationCity = (string?)e.Element("DestinationCity") ?? string.Empty,
+                    DepartureTime = (DateTime?)e.Element("DepartureTime") ?? DateTime.MinValue,
+                    ArrivalTime = (DateTime?)e.Element("ArrivalTime") ?? DateTime.MinValue
+                })
+                .ToList();
+            return new FlightsResponse { Flights = flights };
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error retrieving flights", ex);
+        }
     }
 }

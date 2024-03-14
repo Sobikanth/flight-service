@@ -1,18 +1,30 @@
-using Application.Common.Interface;
+using Application.Common.Interfaces;
 
 namespace Application.Flights.Queries;
-public record GetFlightsQuery : IRequest<FlightsResponse>;
-
-
-public class GetFlightsQueryHandler : IRequestHandler<GetFlightsQuery, FlightsResponse>
+public record GetFlightsQuery : IRequest<FlightsResponse>
 {
-    private readonly IFlightsHttpClient _flightsHttpClient;
-    public GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient)
-    {
-        _flightsHttpClient = flightsHttpClient;
-    }
+    public string DepartureCity { get; init; } = string.Empty;
+    public string DestinationCity { get; init; } = string.Empty;
+
+};
+
+
+public class GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient) : IRequestHandler<GetFlightsQuery, FlightsResponse>
+{
+    private readonly IFlightsHttpClient _flightsHttpClient = flightsHttpClient;
+
     public async Task<FlightsResponse> Handle(GetFlightsQuery request, CancellationToken cancellationToken)
     {
-        return await _flightsHttpClient.GetFlightsAsync();
+        var allFlights = await _flightsHttpClient.GetFlightsAsync();
+        if (allFlights?.Flights == null)
+        {
+            return new FlightsResponse { Flights = [] };
+        }
+        var filteredFlights = allFlights.Flights
+            .Where(f => (string.IsNullOrEmpty(request.DepartureCity) || f.DepartureCity == request.DepartureCity) &&
+                        (string.IsNullOrEmpty(request.DestinationCity) || f.DestinationCity == request.DestinationCity))
+            .ToList();
+
+        return new FlightsResponse { Flights = filteredFlights };
     }
 }

@@ -1,6 +1,6 @@
 using Application.Flights.Queries;
 
-namespace Application.Common.Interface;
+namespace Application.Common.Interfaces;
 
 public interface IFlightsHttpClient
 {

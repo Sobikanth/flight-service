@@ -9,7 +9,6 @@ public static class DependencyInjection
 
         services.AddExceptionHandler<CustomExceptionHandler>();
 
-
         services.AddEndpointsApiExplorer();
 
         return services;

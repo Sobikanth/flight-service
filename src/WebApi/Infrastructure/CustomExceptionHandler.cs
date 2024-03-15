@@ -1,75 +1,40 @@
-using Ardalis.GuardClauses;
+using Application.Common.Models;
+
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+
+using WebApi.Common.Exceptions;
 
 namespace WebApi.Infrastructure;
 
-public class CustomExceptionHandler : IExceptionHandler
+public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly Dictionary<Type, Func<HttpContext, Exception, Task>> _exceptionHandlers;
-
-    public CustomExceptionHandler()
-    {
-        _exceptionHandlers = new()
-            {
-                { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
-                { typeof(BadHttpRequestException),HandleBadHttpRequestException },
-            };
-    }
-
-    private async Task HandleBadHttpRequestException(HttpContext context, Exception exception)
-    {
-        var badHttpRequestException = (BadHttpRequestException)exception;
-
-        context.Response.StatusCode = StatusCodes.Status400BadRequest;
-
-        await context.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status400BadRequest,
-            Title = "Bad Request",
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-            Detail = badHttpRequestException.Message
-        });
-    }
+    // private readonly ILogger<CustomExceptionHandler> _logger = logger;
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        var exceptionType = exception.GetType();
+        var response = new ErrorResponse();
 
-        if (_exceptionHandlers.ContainsKey(exceptionType))
+        if (exception is NotFoundException)
         {
-            await _exceptionHandlers[exceptionType].Invoke(httpContext, exception);
-            return true;
+            response.StatusCode = StatusCodes.Status404NotFound;
+            response.Title = "Resource not found";
+            response.ExceptionMessage = exception.Message;
+        }
+        else if (exception is BadHttpRequestException badHttpRequestException)
+        {
+            response.StatusCode = StatusCodes.Status400BadRequest;
+            response.Title = "Bad request";
+            response.ExceptionMessage = badHttpRequestException.Message;
+        }
+        else
+        {
+            response.StatusCode = StatusCodes.Status500InternalServerError;
+            response.Title = "An error occurred";
+            response.ExceptionMessage = "An error occurred";
         }
 
-        return false;
-    }
-
-    private async Task HandleNotFoundException(HttpContext httpContext, Exception ex)
-    {
-        var exception = (NotFoundException)ex;
-
-        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails()
-        {
-            Status = StatusCodes.Status404NotFound,
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-            Title = "The specified resource was not found.",
-            Detail = exception.Message
-        });
-    }
-
-    private async Task HandleUnauthorizedAccessException(HttpContext httpContext, Exception ex)
-    {
-        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status401Unauthorized,
-            Title = "Unauthorized",
-            Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
-        });
+        // Log.Error(exception, "An error occurred");
+        await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);
+        return true;
     }
 }

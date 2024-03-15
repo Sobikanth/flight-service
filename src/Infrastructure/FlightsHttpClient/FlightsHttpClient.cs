@@ -1,36 +1,44 @@
-using System.Xml.Linq;
+using System.Xml;
+using System.Xml.Serialization;
 
+using Application;
 using Application.Common.Interfaces;
+using Application.Common.Mappings;
 using Application.Flights.Queries;
+
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.FlightsHttpClient;
 
-public class FlightsHttpClient(HttpClient httpClient) : IFlightsHttpClient
+public class FlightsHttpClient(HttpClient httpClient, IOptions<ApiProvider> options) : IFlightsHttpClient
 {
     private readonly HttpClient _httpClient = httpClient;
+    private readonly ApiProvider _apiProvider = options.Value;
 
-    public async Task<FlightsResponse> GetFlightsAsync()
+    public async Task<List<FlightDto>> GetFlightsAsync()
     {
-        try
+        var apiUrl = _apiProvider.ApiUrl;
+        var xmlContent = await _httpClient.GetStringAsync(apiUrl);
+        var serializer = new XmlSerializer(typeof(Flights));
+
+        using var reader = new StringReader(xmlContent);
+
+        var xmlReaderSettings = new XmlReaderSettings
         {
-            var xmlContent = await _httpClient.GetStringAsync("https://flighttestservice.azurewebsites.net/flights");
-            var doc = XDocument.Parse(xmlContent);
-            var flights = doc.Root
-                .Elements("Flight")
-                .Select(e => new Flight
-                {
-                    FlightNumber = (string?)e.Element("FlightNumber") ?? string.Empty,
-                    DepartureCity = (string?)e.Element("DepartureCity") ?? string.Empty,
-                    DestinationCity = (string?)e.Element("DestinationCity") ?? string.Empty,
-                    DepartureTime = (DateTime?)e.Element("DepartureTime") ?? DateTime.MinValue,
-                    ArrivalTime = (DateTime?)e.Element("ArrivalTime") ?? DateTime.MinValue
-                })
-                .ToList();
-            return new FlightsResponse { Flights = flights };
-        }
-        catch (Exception ex)
+            DtdProcessing = DtdProcessing.Prohibit,
+            XmlResolver = null
+        };
+
+        using var xmlReader = XmlReader.Create(reader, xmlReaderSettings);
+        var flights = (Flights)serializer.Deserialize(xmlReader);
+
+        var flightResponseDtos = new List<FlightDto>();
+
+        foreach (var flight in flights.Flight)
         {
-            throw new Exception("Error retrieving flights", ex);
+            flightResponseDtos.Add(FlightMapper.Map(flight));
         }
+
+        return flightResponseDtos;
     }
 }

@@ -4,6 +4,5 @@ namespace Application.Common.Interfaces;
 
 public interface IFlightsHttpClient
 {
-    Task<FlightsResponse> GetFlightsAsync();
-
+    Task<List<FlightDto>> GetFlightsAsync();
 }

@@ -12,19 +12,16 @@ public class Flights : EndpointGroupBase
         .MapGet(GetFlights);
     }
 
-    public async Task<FlightsResponse> GetFlights(ISender sender, [FromQuery] string? departureCity,
-            [FromQuery] string? destinationCity, CancellationToken cancellationToken)
+    public async Task<FlightResponse> GetFlights(ISender sender, [FromQuery] string? departureCity,
+            [FromQuery] string? destinationCity, [FromQuery] string? flightNumber, CancellationToken cancellationToken)
     {
         var query = new GetFlightsQuery
         {
             DepartureCity = departureCity,
-            DestinationCity = destinationCity
+            DestinationCity = destinationCity,
+            FlightNumber = flightNumber
         };
         var response = await sender.Send(query, cancellationToken);
-        if (response.Flights == null)
-        {
-            return new FlightsResponse { Flights = [] };
-        }
         return response;
     }
 }

@@ -1,7 +1,7 @@
-@Web_HostAddress = http://localhost:5157
+@Web_HostAddress = http://localhost:8080
 @FlightNumber = DEF456
-@departureCity = <Your Departure City>
-@destinationCity = <Your Destination City>
+@departureCity = 
+@destinationCity = 
 
 ###
 

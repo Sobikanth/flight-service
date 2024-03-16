@@ -6,7 +6,7 @@ using WebApi.Common.Exceptions;
 
 namespace WebApi.Infrastructure;
 
-public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IExceptionHandler
+public class CustomExceptionHandler() : IExceptionHandler
 {
     // private readonly ILogger<CustomExceptionHandler> _logger = logger;
 

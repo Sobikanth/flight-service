@@ -18,7 +18,7 @@ public class GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient) : IReq
     {
         var allFlights = await _flightsHttpClient.GetFlightsAsync();
 
-        FlightResponse flightResponse = new FlightResponse
+        var flightResponse = new FlightResponse
         {
             Flights = allFlights
         };

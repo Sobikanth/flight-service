@@ -1,10 +1,11 @@
+using Application.Common.Interfaces;
 using Application.Flights.Queries;
 
 namespace Application.Common.Mappings;
 
-public class FlightMapper
+public class FlightMapper : IFlightMapper
 {
-    public static FlightDto Map(Flight flight)
+    public FlightDto Map(Flight flight)
     {
         return new FlightDto
         {

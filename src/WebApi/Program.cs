@@ -1,3 +1,5 @@
+using WebApi.Common.Exceptions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
@@ -10,11 +12,10 @@ var app = builder.Build();
 
 app.UseExceptionHandler(options => { });
 
-// app.MapGet("/", (_) => throw new NotFoundException());
+app.MapGet("/api", (_) => throw new NotFoundException());
 
 
 app.MapEndpoints();
 
 
 app.Run();
-

@@ -15,7 +15,7 @@ public class Flights : EndpointGroupBase
     public async Task<FlightResponse> GetFlights(ISender sender, [FromQuery] string? departureCity,
             [FromQuery] string? destinationCity, [FromQuery] string? flightNumber, CancellationToken cancellationToken)
     {
-        var query = new GetFlightsQuery
+        var query = new GetFlightQuery
         {
             DepartureCity = departureCity,
             DestinationCity = destinationCity,

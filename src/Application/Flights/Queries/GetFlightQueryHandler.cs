@@ -1,20 +1,12 @@
 using Application.Common.Interfaces;
 
 namespace Application.Flights.Queries;
-public record GetFlightsQuery : IRequest<FlightResponse>
-{
-    public string? DepartureCity { get; init; } = string.Empty;
-    public string? DestinationCity { get; init; } = string.Empty;
-    public string? FlightNumber { get; init; } = string.Empty;
 
-};
-
-
-public class GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient) : IRequestHandler<GetFlightsQuery, FlightResponse>
+public class GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient) : IRequestHandler<GetFlightQuery, FlightResponse>
 {
     private readonly IFlightsHttpClient _flightsHttpClient = flightsHttpClient;
 
-    public async Task<FlightResponse> Handle(GetFlightsQuery request, CancellationToken cancellationToken)
+    public async Task<FlightResponse> Handle(GetFlightQuery request, CancellationToken cancellationToken)
     {
         var allFlights = await _flightsHttpClient.GetFlightsAsync();
 

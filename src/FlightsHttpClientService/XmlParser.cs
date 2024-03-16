@@ -4,11 +4,13 @@ using System.Xml.Serialization;
 using Application.Common.Interfaces;
 using Application.Flights.Queries;
 
+using AutoMapper;
+
 namespace FlightsHttpClientService;
 
-public class XmlParser(IFlightMapper flightMapper) : IXmlParser
+public class XmlParser(IMapper mapper) : IXmlParser
 {
-    private readonly IFlightMapper _flightMapper = flightMapper;
+    private readonly IMapper _mapper = mapper;
 
     public List<FlightDto> ParseFlightsXml(string xmlContent)
     {
@@ -26,7 +28,8 @@ public class XmlParser(IFlightMapper flightMapper) : IXmlParser
         {
             foreach (var flight in flights.Flight)
             {
-                flightResponseDtos.Add(_flightMapper.Map(flight));
+                var flightDto = _mapper.Map<FlightDto>(flight);
+                flightResponseDtos.Add(flightDto);
             }
         }
         return flightResponseDtos;

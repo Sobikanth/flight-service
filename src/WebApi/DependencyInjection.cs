@@ -1,3 +1,5 @@
+using Microsoft.OpenApi.Models;
+
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
@@ -9,7 +11,13 @@ public static class DependencyInjection
 
         services.AddExceptionHandler<CustomExceptionHandler>();
 
-        services.AddEndpointsApiExplorer();
+        services.AddControllers();
+        services.AddSwaggerGen(
+            options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "FlightService", Version = "v1" });
+            }
+        );
 
         return services;
     }

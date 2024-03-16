@@ -1,5 +1,3 @@
-using WebApi.Common.Exceptions;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
@@ -10,12 +8,18 @@ builder.Services.AddHttpClientServices(configuration);
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+ {
+     c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlightService V1");
+     c.RoutePrefix = "";
+ });
+}
+
 app.UseExceptionHandler(options => { });
 
-app.MapGet("/api", (_) => throw new NotFoundException());
-
-
-app.MapEndpoints();
-
+app.MapControllers();
 
 app.Run();

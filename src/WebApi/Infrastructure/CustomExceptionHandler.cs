@@ -1,8 +1,7 @@
+using Application.Common.Exceptions;
 using Application.Common.Models;
 
 using Microsoft.AspNetCore.Diagnostics;
-
-using WebApi.Common.Exceptions;
 
 namespace WebApi.Infrastructure;
 

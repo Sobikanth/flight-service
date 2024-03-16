@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Application\Application.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure\FlightsHttpClient\FlightsHttpClient.csproj" />
+    <ProjectReference Include="..\..\src\FlightsHttpClientService\FlightsHttpClientService.csproj" />
   </ItemGroup>
   <ItemGroup>
       <None Update="Flights.xml">

@@ -1,8 +1,8 @@
 using Moq;
 using Application.Common.Interfaces;
 
-using FlightsHttpClient;
 using Application.Flights.Queries;
+using FlightsHttpClientService;
 
 namespace XmlParserTests;
 

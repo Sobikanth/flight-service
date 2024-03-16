@@ -2,12 +2,10 @@ using Application;
 using Application.Common.Interfaces;
 using Application.Common.Mappings;
 
-using FlightsHttpClient;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.FlightsHttpClient;
+namespace FlightsHttpClientService;
 
 public static class DependencyInjection
 {

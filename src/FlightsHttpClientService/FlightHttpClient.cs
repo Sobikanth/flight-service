@@ -4,7 +4,7 @@ using Application.Flights.Queries;
 
 using Microsoft.Extensions.Options;
 
-namespace Infrastructure.FlightsHttpClient;
+namespace FlightsHttpClientService;
 
 public class FlightsHttpClient(HttpClient httpClient, IOptions<ApiProvider> options, IXmlParser xmlParser) : IFlightsHttpClient
 {

@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using Application.Common.Interfaces;
 using Application.Flights.Queries;
 
-namespace FlightsHttpClient;
+namespace FlightsHttpClientService;
 
 public class XmlParser(IFlightMapper flightMapper) : IXmlParser
 {

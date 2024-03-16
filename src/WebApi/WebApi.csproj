@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Infrastructure\FlightsHttpClient\FlightsHttpClient.csproj" />
+    <ProjectReference Include="..\FlightsHttpClientService\FlightsHttpClientService.csproj" />
   </ItemGroup>
 
 </Project>

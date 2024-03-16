@@ -9,15 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "src\WebApi\WebApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{3F5BCA39-8D65-4B1E-A327-AAC4CD77F823}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D3B7902F-7724-43D6-BEB8-15FD8BB005DD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightsHttpClient", "src\Infrastructure\FlightsHttpClient\FlightsHttpClient.csproj", "{F341FD7E-153E-4262-AA06-5A6AD7BBEC9D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{056F4911-09EE-47E7-81AF-EE4C1D54759C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlParserTests", "UnitTests\XmlParserTests\XmlParserTests.csproj", "{EE2E2B0C-01F1-4FFB-A528-FDABFD72C24C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetFlightQueryHandlerTests", "UnitTests\GetFlightQueryHandlerTests\GetFlightQueryHandlerTests.csproj", "{C5A3BF9B-0EB8-4B25-94A5-64675A89ACAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightsHttpClientService", "src\FlightsHttpClientService\FlightsHttpClientService.csproj", "{573F0E8D-79AC-40F7-9F4A-5B6FEBA6EDCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{3F5BCA39-8D65-4B1E-A327-AAC4CD77F823}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F5BCA39-8D65-4B1E-A327-AAC4CD77F823}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F5BCA39-8D65-4B1E-A327-AAC4CD77F823}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F341FD7E-153E-4262-AA06-5A6AD7BBEC9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F341FD7E-153E-4262-AA06-5A6AD7BBEC9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F341FD7E-153E-4262-AA06-5A6AD7BBEC9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F341FD7E-153E-4262-AA06-5A6AD7BBEC9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE2E2B0C-01F1-4FFB-A528-FDABFD72C24C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE2E2B0C-01F1-4FFB-A528-FDABFD72C24C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE2E2B0C-01F1-4FFB-A528-FDABFD72C24C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +39,10 @@ Global
 		{C5A3BF9B-0EB8-4B25-94A5-64675A89ACAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5A3BF9B-0EB8-4B25-94A5-64675A89ACAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5A3BF9B-0EB8-4B25-94A5-64675A89ACAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{573F0E8D-79AC-40F7-9F4A-5B6FEBA6EDCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{573F0E8D-79AC-40F7-9F4A-5B6FEBA6EDCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{573F0E8D-79AC-40F7-9F4A-5B6FEBA6EDCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{573F0E8D-79AC-40F7-9F4A-5B6FEBA6EDCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,10 +50,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{281738D8-C6AE-4880-BF08-F16A612021B4} = {033FB475-BB2F-4617-8FE6-9E283B885A97}
 		{3F5BCA39-8D65-4B1E-A327-AAC4CD77F823} = {033FB475-BB2F-4617-8FE6-9E283B885A97}
-		{D3B7902F-7724-43D6-BEB8-15FD8BB005DD} = {033FB475-BB2F-4617-8FE6-9E283B885A97}
-		{F341FD7E-153E-4262-AA06-5A6AD7BBEC9D} = {D3B7902F-7724-43D6-BEB8-15FD8BB005DD}
 		{EE2E2B0C-01F1-4FFB-A528-FDABFD72C24C} = {056F4911-09EE-47E7-81AF-EE4C1D54759C}
 		{C5A3BF9B-0EB8-4B25-94A5-64675A89ACAD} = {056F4911-09EE-47E7-81AF-EE4C1D54759C}
+		{573F0E8D-79AC-40F7-9F4A-5B6FEBA6EDCD} = {033FB475-BB2F-4617-8FE6-9E283B885A97}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A44FB607-6F06-4C96-B1D7-4EBD07357C81}

@@ -12,7 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddHttpClientServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient<IFlightsHttpClient, FlightsHttpClient>();
-        services.AddScoped<IFlightXmlParser, FlightXmlParser>();
+        services.AddScoped<FlightXmlParser>();
         services.Configure<ApiProvider>(configuration.GetSection(ApiProvider.APIPROVIDER));
         return services;
     }

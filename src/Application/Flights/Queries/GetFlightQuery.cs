@@ -1,5 +1,3 @@
-using Microsoft.VisualBasic;
-
 namespace Application.Flights.Queries;
 
 public record GetFlightQuery : IRequest<FlightResponse>

@@ -1,14 +1,13 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-using Application.Common.Interfaces;
 using Application.Flights.Queries;
 
 using AutoMapper;
 
 namespace FlightsHttpClientService;
 
-public class FlightXmlParser(IMapper mapper) : IFlightXmlParser
+public class FlightXmlParser(IMapper mapper)
 {
     private readonly IMapper _mapper = mapper;
 

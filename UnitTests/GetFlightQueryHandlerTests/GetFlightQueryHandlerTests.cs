@@ -16,7 +16,7 @@ public class GetFlightQueryHandlerTests
     private readonly Mock<IFlightsHttpClient> _flightsHttpClientMock;
     private readonly Mock<ILogger<GetFlightsQueryHandler>> _loggerMock;
 
-    public GetFlightQueryHandlerTests()
+    public GetFlightQueryHandlerTests(CancellationToken cancellationToken)
     {
         _flightsHttpClientMock = new Mock<IFlightsHttpClient>();
         _loggerMock = new Mock<ILogger<GetFlightsQueryHandler>>();
@@ -29,7 +29,7 @@ public class GetFlightQueryHandlerTests
         {
             Flights = flightDtosList
         };
-        _flightsHttpClientMock.Setup(m => m.GetFlightsAsync()).ReturnsAsync(flightResponse.Flights);
+        _flightsHttpClientMock.Setup(m => m.GetFlightsAsync(cancellationToken)).ReturnsAsync(flightResponse.Flights);
 
     }
     [Fact]

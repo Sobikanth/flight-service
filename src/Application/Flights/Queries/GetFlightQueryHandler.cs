@@ -11,13 +11,14 @@ public class GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient, ILogge
 
     public async Task<FlightResponse> Handle(GetFlightQuery request, CancellationToken cancellationToken)
     {
-        var allFlights = await _flightsHttpClient.GetFlightsAsync();
+        var allFlights = await _flightsHttpClient.GetFlightsAsync(cancellationToken);
 
         var flightResponse = new FlightResponse
         {
             Flights = allFlights
         };
 
+        // Filter the flightResponse based on the request query parameters
         flightResponse.Flights = flightResponse.Flights
             .Where(flight =>
                 (string.IsNullOrEmpty(request.DepartureCity) || flight.DepartureCity == request.DepartureCity) &&

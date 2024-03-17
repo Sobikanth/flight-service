@@ -11,7 +11,7 @@ public class GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient, ILogge
 
     public async Task<FlightResponse> Handle(GetFlightQuery request, CancellationToken cancellationToken)
     {
-        var allFlights = await _flightsHttpClient.GetFlightsAsync(cancellationToken);
+        var allFlights = await _flightsHttpClient.GetFlightsAsync();
 
         var flightResponse = new FlightResponse
         {

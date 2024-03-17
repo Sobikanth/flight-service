@@ -1,4 +1,4 @@
-namespace Application.Common.Exceptions;
+namespace WebApi.Infrastructure;
 
 public class NotFoundException : Exception
 {

@@ -1,4 +1,4 @@
-@Web_HostAddress = http://localhost:8080
+@Web_HostAddress = http://localhost:5157
 @FlightNumber = DEF456
 @departureCity = 
 @destinationCity = 
@@ -7,8 +7,8 @@
 
 # Get Flights
 GET {{Web_HostAddress}}/api/flights
-?flightNumber={{FlightNumber}}
-&departureCity={{departureCity}}
-&destinationCity={{destinationCity}}
+# ?flightNumber={{FlightNumber}}
+# &departureCity={{departureCity}}
+# &destinationCity={{destinationCity}}
 
 ###

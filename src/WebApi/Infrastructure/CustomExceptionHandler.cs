@@ -1,5 +1,5 @@
-using Application.Common.Exceptions;
-using Application.Common.Models;
+// using Application.Common.Exceptions;
+// using Application.Common.Models;
 
 using Microsoft.AspNetCore.Diagnostics;
 
@@ -11,31 +11,36 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        var response = new ErrorResponse();
-
         if (exception is NotFoundException)
         {
-            response.StatusCode = StatusCodes.Status404NotFound;
-            response.Title = "Resource not found";
-            response.ExceptionMessage = exception.Message;
-            _logger.LogError(exception, response.Title);
+            httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+            _logger.LogError(exception, "Not found exception occurred");
+            await httpContext.Response.WriteAsJsonAsync(new { message = exception.Message }, cancellationToken);
         }
-        else if (exception is BadHttpRequestException badHttpRequestException)
+        else if (exception is BadHttpRequestException)
         {
-            response.StatusCode = StatusCodes.Status400BadRequest;
-            response.Title = "Bad request";
-            response.ExceptionMessage = badHttpRequestException.Message;
-            _logger.LogError(exception, response.Title);
+            httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            _logger.LogError(exception, "Bad request exception occurred");
+            await httpContext.Response.WriteAsJsonAsync(new { message = exception.Message }, cancellationToken);
+        }
+        else if (exception is UnauthorizedAccessException)
+        {
+            httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            _logger.LogError(exception, "Unauthorized access");
+            await httpContext.Response.WriteAsJsonAsync(new { message = "Unauthorized" }, cancellationToken);
+        }
+        else if (exception is NotImplementedException)
+        {
+            httpContext.Response.StatusCode = StatusCodes.Status501NotImplemented;
+            _logger.LogError(exception, "Not implemented exception occurred");
+            await httpContext.Response.WriteAsJsonAsync(new { message = exception.Message }, cancellationToken);
         }
         else
         {
-            response.StatusCode = StatusCodes.Status500InternalServerError;
-            response.Title = "An error occurred";
-            response.ExceptionMessage = "An error occurred";
-            _logger.LogError(exception, response.Title);
+            httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            _logger.LogError(exception, "An error occurred while processing your request");
+            await httpContext.Response.WriteAsJsonAsync(new { message = "An error occurred while processing your request." }, cancellationToken);
         }
-
-        await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);
         return true;
     }
 }

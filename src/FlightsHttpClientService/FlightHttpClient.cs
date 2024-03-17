@@ -1,4 +1,3 @@
-using Application;
 using Application.Common.Interfaces;
 using Application.Flights.Queries;
 
@@ -16,12 +15,12 @@ public class FlightsHttpClient(HttpClient httpClient, IOptions<ApiProvider> opti
 
     private readonly FlightXmlParser _flightXmlParser = flightXmlParser;
 
-    public async Task<List<FlightDto>> GetFlightsAsync(CancellationToken cancellationToken)
+    public async Task<List<FlightDto>> GetFlightsAsync()
     {
         var apiUrl = _apiProvider.ApiUrl;
         try
         {
-            var xmlContent = await _httpClient.GetStringAsync(apiUrl, cancellationToken);
+            var xmlContent = await _httpClient.GetStringAsync(apiUrl);
             var response = _flightXmlParser.ParseFlightsXml(xmlContent);
             return response;
         }

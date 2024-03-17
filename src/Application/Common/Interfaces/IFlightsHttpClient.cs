@@ -4,5 +4,5 @@ namespace Application.Common.Interfaces;
 
 public interface IFlightsHttpClient
 {
-    Task<List<FlightDto>> GetFlightsAsync(CancellationToken cancellationToken);
+    Task<List<FlightDto>> GetFlightsAsync();
 }

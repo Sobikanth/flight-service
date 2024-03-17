@@ -28,7 +28,11 @@ public class GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient, ILogge
             {
                 flightResponse.Flights.Remove(flight);
             }
-            if (!string.IsNullOrEmpty(request.FlightNumber) && flight.FlightNumber != request.FlightNumber)
+            if (request.DepartureDate.HasValue && flight.DepartureTime.Date != request.DepartureDate.Value.Date)
+            {
+                flightResponse.Flights.Remove(flight);
+            }
+            if (request.ArrivalDate.HasValue && flight.ArrivalTime.Date != request.ArrivalDate.Value.Date)
             {
                 flightResponse.Flights.Remove(flight);
             }

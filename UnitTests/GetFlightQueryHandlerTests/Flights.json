@@ -17,7 +17,14 @@
     "FlightNumber": "GHI789",
     "DepartureCity": "City5",
     "DestinationCity": "City6",
-
+    "DepartureTime": "2023-03-23T11:00:00",
     "ArrivalTime": "2023-03-23T13:00:00"
+  },
+  {
+    "FlightNumber": "KLM123",
+    "DepartureCity": "City3",
+    "DestinationCity": "City4",
+    "DepartureTime": "2023-03-24T09:00:00",
+    "ArrivalTime": "2023-03-24T12:00:00"
   }
 ]

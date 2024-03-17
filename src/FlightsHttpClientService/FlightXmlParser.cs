@@ -8,7 +8,7 @@ using AutoMapper;
 
 namespace FlightsHttpClientService;
 
-public class XmlParser(IMapper mapper) : IXmlParser
+public class FlightXmlParser(IMapper mapper) : IFlightXmlParser
 {
     private readonly IMapper _mapper = mapper;
 
@@ -23,7 +23,7 @@ public class XmlParser(IMapper mapper) : IXmlParser
         };
         using var xmlReader = XmlReader.Create(reader, xmlReaderSettings);
         var flights = serializer.Deserialize(xmlReader) as Flights;
-        var flightResponseDtos = flights?.Flight?.Select(_mapper.Map<FlightDto>).ToList() ?? [];
+        var flightResponseDtos = _mapper.Map<List<FlightDto>>(flights?.Flight);
         return flightResponseDtos;
     }
 }

@@ -33,7 +33,7 @@ public class GetFlightQueryHandlerTests
 
     }
     [Fact]
-    public void GetFlightQueryHandlerShouldReturnAllFlightResponseIfNoQueryParametersAreGiven()
+    public void GetFlightQueryHandler_ShouldReturnAllFlightResponse_IfNoQueryParametersAreGiven()
     {
 
         var getFlightQuery = new GetFlightQuery();
@@ -47,7 +47,7 @@ public class GetFlightQueryHandlerTests
     }
 
     [Fact]
-    public void GetFlightHandlerShouldReturnFilteredFlightsWhenDepartureCityAndDestinationCityIsGiven()
+    public void GetFlightHandler_ShouldReturnFilteredFlights_WhenDepartureCityAndDestinationCityIsGiven()
     {
         // Arrange
 
@@ -67,7 +67,7 @@ public class GetFlightQueryHandlerTests
     }
 
     [Fact]
-    public void GetFlightHandlerShouldReturnFilteredFlightsWhenDepartureDateAndArrivalDateIsGiven()
+    public void GetFlightHandler_ShouldReturnFilteredFlights_WhenDepartureDateAndArrivalDateIsGiven()
     {
         // Arrange
 
@@ -87,7 +87,7 @@ public class GetFlightQueryHandlerTests
     }
 
     [Fact]
-    public void GetFlightHandlerShouldReturnFilteredFlightsWhenAllQueryParametersAreGiven()
+    public void GetFlightHandler_ShouldReturnFilteredFlights_WhenAllQueryParametersAreGiven()
     {
         // Arrange
 
@@ -111,7 +111,7 @@ public class GetFlightQueryHandlerTests
     }
 
     [Fact]
-    public void GetFlightHandlerShouldReturnEmptyFlightsWhenNoFlightMatchesQueryParameters()
+    public void GetFlightHandler_ShouldReturnEmptyFlights_WhenNoFlightMatchesQueryParameters()
     {
         // Arrange
 
@@ -132,7 +132,7 @@ public class GetFlightQueryHandlerTests
     }
 
     [Fact]
-    public void GetFlightHandlerShouldReturnMultipleFlightsWhenMultipleFlightsMatchQueryParameters()
+    public void GetFlightHandler_ShouldReturnMultipleFlights_WhenMultipleFlightsMatchQueryParameters()
     {
         // Arrange
 

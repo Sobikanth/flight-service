@@ -7,14 +7,14 @@ using Microsoft.Extensions.Options;
 
 namespace FlightsHttpClientService;
 
-public class FlightsHttpClient(HttpClient httpClient, IOptions<ApiProvider> options, IXmlParser xmlParser, ILogger<FlightsHttpClient> logger) : IFlightsHttpClient
+public class FlightsHttpClient(HttpClient httpClient, IOptions<ApiProvider> options, IFlightXmlParser flightXmlParser, ILogger<FlightsHttpClient> logger) : IFlightsHttpClient
 {
     private readonly HttpClient _httpClient = httpClient;
     private readonly ApiProvider _apiProvider = options.Value;
 
     private readonly ILogger<FlightsHttpClient> _logger = logger;
 
-    private readonly IXmlParser _xmlParser = xmlParser;
+    private readonly IFlightXmlParser _flightXmlParser = flightXmlParser;
 
     public async Task<List<FlightDto>> GetFlightsAsync()
     {
@@ -22,7 +22,7 @@ public class FlightsHttpClient(HttpClient httpClient, IOptions<ApiProvider> opti
         try
         {
             var xmlContent = await _httpClient.GetStringAsync(apiUrl);
-            var response = _xmlParser.ParseFlightsXml(xmlContent);
+            var response = _flightXmlParser.ParseFlightsXml(xmlContent);
             return response;
         }
         catch (Exception ex)

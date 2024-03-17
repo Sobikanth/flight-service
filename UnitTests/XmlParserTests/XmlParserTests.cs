@@ -10,18 +10,25 @@ public class XmlParserTests
 {
 
     [Fact]
-#pragma warning disable CA1707 // Identifiers should not contain underscores
-    public void ParseFlightsXml_WhenCalled_ReturnsListOfFlightDto()
-#pragma warning restore CA1707 // Identifiers should not contain underscores
+    public void ParseFlightsXml_ShouldReturnFlightDtos_WhenXmlContentIsGiven()
     {
         // Arrange
         var flightMapperMock = new Mock<IMapper>();
-        flightMapperMock.Setup(m => m.Map<FlightDto>(It.IsAny<Flight>())).Returns(new FlightDto());
-        var xmlParser = new XmlParser(flightMapperMock.Object);
+        flightMapperMock.Setup(m => m.Map<List<FlightDto>>(It.IsAny<List<Flight>>()))
+            .Returns((List<Flight> flights) => flights.Select(flight => new FlightDto
+            {
+                FlightNumber = flight.FlightNumber,
+                DepartureCity = flight.DepartureCity,
+                DestinationCity = flight.DestinationCity,
+                DepartureTime = flight.DepartureTime,
+                ArrivalTime = flight.ArrivalTime
+            }).ToList());
+
+        var flightXmlParser = new FlightXmlParser(flightMapperMock.Object);
         var xmlContent = File.ReadAllText("flights.xml");
 
         // Act
-        var result = xmlParser.ParseFlightsXml(xmlContent);
+        var result = flightXmlParser.ParseFlightsXml(xmlContent);
 
         // Assert
         Assert.NotNull(result);

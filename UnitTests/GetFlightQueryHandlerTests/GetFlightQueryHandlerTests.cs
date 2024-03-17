@@ -23,10 +23,11 @@ public class GetFlightQueryHandlerTests
 
         var json = File.ReadAllText("flights.json");
         var flightDtos = JsonConvert.DeserializeObject<FlightDto[]>(json);
+        var flightDtosList = flightDtos != null ? new List<FlightDto>(flightDtos) : [];
 
         var flightResponse = new FlightResponse
         {
-            Flights = flightDtos.ToList()!
+            Flights = flightDtosList
         };
         _flightsHttpClientMock.Setup(m => m.GetFlightsAsync()).ReturnsAsync(flightResponse.Flights);
 

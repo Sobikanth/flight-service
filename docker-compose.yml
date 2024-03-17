@@ -1,0 +1,10 @@
+version: "3.4"
+
+services:
+  flight-web-api:
+    image: ${DOCKER_REGISTRY-}flightservice
+    build:
+      context: .
+      dockerfile: src/WebApi/Dockerfile
+    ports:
+      - "8080:8080"

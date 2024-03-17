@@ -23,15 +23,7 @@ public class XmlParser(IMapper mapper) : IXmlParser
         };
         using var xmlReader = XmlReader.Create(reader, xmlReaderSettings);
         var flights = serializer.Deserialize(xmlReader) as Flights;
-        var flightResponseDtos = new List<FlightDto>();
-        if (flights?.Flight != null)
-        {
-            foreach (var flight in flights.Flight)
-            {
-                var flightDto = _mapper.Map<FlightDto>(flight);
-                flightResponseDtos.Add(flightDto);
-            }
-        }
+        var flightResponseDtos = flights?.Flight?.Select(_mapper.Map<FlightDto>).ToList() ?? [];
         return flightResponseDtos;
     }
 }

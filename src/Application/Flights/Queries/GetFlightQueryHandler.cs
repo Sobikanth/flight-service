@@ -18,25 +18,13 @@ public class GetFlightsQueryHandler(IFlightsHttpClient flightsHttpClient, ILogge
             Flights = allFlights
         };
 
-        foreach (var flight in flightResponse.Flights.ToList())
-        {
-            if (!string.IsNullOrEmpty(request.DepartureCity) && flight.DepartureCity != request.DepartureCity)
-            {
-                flightResponse.Flights.Remove(flight);
-            }
-            if (!string.IsNullOrEmpty(request.DestinationCity) && flight.DestinationCity != request.DestinationCity)
-            {
-                flightResponse.Flights.Remove(flight);
-            }
-            if (request.DepartureDate.HasValue && flight.DepartureTime.Date != request.DepartureDate.Value.Date)
-            {
-                flightResponse.Flights.Remove(flight);
-            }
-            if (request.ArrivalDate.HasValue && flight.ArrivalTime.Date != request.ArrivalDate.Value.Date)
-            {
-                flightResponse.Flights.Remove(flight);
-            }
-        }
+        flightResponse.Flights = flightResponse.Flights
+            .Where(flight =>
+                (string.IsNullOrEmpty(request.DepartureCity) || flight.DepartureCity == request.DepartureCity) &&
+                (string.IsNullOrEmpty(request.DestinationCity) || flight.DestinationCity == request.DestinationCity) &&
+                (!request.DepartureDate.HasValue || flight.DepartureTime.Date == request.DepartureDate.Value.Date) &&
+                (!request.ArrivalDate.HasValue || flight.ArrivalTime.Date == request.ArrivalDate.Value.Date))
+            .ToList();
         _logger.LogInformation("Returning {Count} flights", flightResponse.Flights.Count);
 
         return flightResponse;
